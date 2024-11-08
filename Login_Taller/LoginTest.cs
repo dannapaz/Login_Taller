@@ -5,8 +5,10 @@ using static System.Net.WebRequestMethods;
 
 namespace Login_Taller
 {
-    //Hooks el va a ejecutar ciertos trozos de codigo en cierta partes de mis test
-    
+
+    //  [TestFixture("tomsmith", "SuperSecretPassword!")]
+    //  Test Global  define la clase como un contenedor de pruebas 
+
     public class Tests
     {
         public IWebDriver driver;
@@ -31,12 +33,21 @@ namespace Login_Taller
             //cerrar el driver
             driver.Quit();
         }
-        [Test]
-        public void IngresoCorrecto()
-        {
-            login.IngresarCredenciales();
-            
-        }
 
+        //ordenar testcase
+        ///[Order(1)]
+        //Ignorar un caso de prueba
+        //[Ignore("No se prueba")]
+
+        //[TestCase} Me define varios escenarios dentro de un unico metodo permitiendome probar multiples conjuntos de datos
+
+        // [TestCase("tomsmith1", "SuperSecretPassword!")]
+       [TestCase("tomsmith","SuperSecretPassword!")]
+        public void IngresoCorrecto(String user, String password)
+        {
+            login.IngresarCredenciales(user,password);
+
+
+        }
     }
 }
