@@ -5,15 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 
-namespace Login_Taller.PageObject
+namespace Login_Taller.PageObject.Login
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        public IWebDriver _driver;
-        public LoginPage(IWebDriver driver)
-        {
-            this._driver = driver;
-        }
+        
+        public LoginPage(IWebDriver driver) : base(driver) { }
 
         //readonly: No se puede cambiar el valor durante la ejecución 
 
@@ -25,7 +22,7 @@ namespace Login_Taller.PageObject
         public IWebElement password => _driver.FindElement(_txtPassword);
         public IWebElement botonLogin => _driver.FindElement(_btnLogin);
 
-        public void IngresarCredenciales(String user , String pass)
+        public void IngresarCredenciales(string user, string pass)
         {
             username.SendKeys(user);
             password.SendKeys(pass);
