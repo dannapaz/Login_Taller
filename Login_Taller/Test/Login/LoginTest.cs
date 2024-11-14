@@ -45,6 +45,9 @@ namespace Login_Taller.Test.Login
 
             login.IngresarCredenciales(user, pass);
 
+            //asser valida escenarios negativos y positivos
+
+            Assert.That(driver.Url.Equals("https://the-internet.herokuapp.com/login"));
         }
     }
 }
