@@ -20,6 +20,7 @@ namespace Login_Taller.Test
         public string baseUrl = "https://the-internet.herokuapp.com/login";
         public WebDriverWait wait;
         public BasePage page;
+        public TomarCaptura captura;
 
         [SetUp]
         public void IniciarNavegador()
@@ -43,6 +44,7 @@ namespace Login_Taller.Test
             login = new LoginPage(driver, wait);
             json = new LeerJson();
             page = new BasePage(driver, wait);
+            captura = new TomarCaptura();
 
 
         }

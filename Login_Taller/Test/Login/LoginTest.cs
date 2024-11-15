@@ -54,13 +54,16 @@ namespace Login_Taller.Test.Login
             catch (NoSuchElementException ex) 
                 {
                     Console.WriteLine($"No se encuentra el elemento:{ ex.Message}");
-                    Console.WriteLine($"No se encuentra el elemento: " + ex.Message);
+                     captura.CapturarPantalla(driver);
+                   Assert.Fail("Cayo en el catch");
             }
 
                 catch (Exception ex)
             {
                 Console.WriteLine($"Erro en la ejecución:{ex.Message}");
+                captura.CapturarPantalla(driver);
                 Assert.Fail("Cayo en el catch");
+
 
             }
 
