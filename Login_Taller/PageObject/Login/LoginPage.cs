@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Login_Taller.PageObject.Login
 {
     public class LoginPage : BasePage
     {
         
-        public LoginPage(IWebDriver driver) : base(driver) { }
+        public LoginPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
 
         //readonly: No se puede cambiar el valor durante la ejecución 
 
@@ -29,6 +30,11 @@ namespace Login_Taller.PageObject.Login
         {
             username.SendKeys(user);
             password.SendKeys(pass);
+        }
+
+        public void DarClickBotonLogin()
+        {
+         
             botonLogin.Click();
         }
         public bool validarBoton()

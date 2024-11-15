@@ -44,6 +44,9 @@ namespace Login_Taller.Test.Login
             // String password = data.password;
 
             login.IngresarCredenciales(user, pass);
+            page.ElementoVisible(login.botonLogin);
+            login.DarClickBotonLogin();
+            //page.ElementoVisible(login.botonLogout);
 
             //asser valida escenarios negativos y positivos
             //ASSERT es un metodo que utilizo para
@@ -55,6 +58,7 @@ namespace Login_Taller.Test.Login
             // Assert.That(login.validarBoton());
             //Assert.That(login.botonLogout.Displayed);
             //Assert.That(driver.Url.Contains("/secure"));
+
             Assert.That(driver.Url.Equals("https://the-internet.herokuapp.com/login"));
         }
     }
