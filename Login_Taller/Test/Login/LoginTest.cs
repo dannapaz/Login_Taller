@@ -46,8 +46,18 @@ namespace Login_Taller.Test.Login
             login.IngresarCredenciales(user, pass);
 
             //asser valida escenarios negativos y positivos
+            //ASSERT es un metodo que utilizo para
+            //verificar el compoertamiento de mi codigo o test sea el esperado
+            //Los assert deben estar en el test porque el tets como tal es el que verifica el comportamiento esperado
+            //mientras que el PAGE solo debe encargarse de interactuar con la interfaz 
+            //Hay muchas formas de poder validar 
 
+            // Assert.That(login.validarBoton());
+            //Assert.That(login.botonLogout.Displayed);
+            //Assert.That(driver.Url.Contains("/secure"));
             Assert.That(driver.Url.Equals("https://the-internet.herokuapp.com/login"));
         }
     }
+
+
 }
