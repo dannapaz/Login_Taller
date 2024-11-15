@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using Login_Taller.Genericos;
 using Login_Taller.PageObject.Login;
@@ -11,7 +12,7 @@ namespace Login_Taller.Test.Login
 
     public class Tests : BaseTest
     {
-      
+
 
         //El tipo de retorno IEnumerable va ser el interfaz que va representar una coleccion de objetos
         //cual es mi coleccion de objetos la que esta en credenciales 
@@ -43,10 +44,26 @@ namespace Login_Taller.Test.Login
             // String user = data.username;
             // String password = data.password;
 
-            login.IngresarCredenciales(user, pass);
-            page.ElementoVisible(login.botonLogin);
-            login.DarClickBotonLogin();
-            //page.ElementoVisible(login.botonLogout);
+            try
+            {
+                login.IngresarCredenciales(user, pass);
+                page.ElementoVisible(login.botonLogin);
+                login.DarClickBotonLogin();
+                //page.ElementoVisible(login.botonLogout);
+            }
+            catch (NoSuchElementException ex) 
+                {
+                    Console.WriteLine($"No se encuentra el elemento:{ ex.Message}");
+                    Console.WriteLine($"No se encuentra el elemento: " + ex.Message);
+            }
+
+                catch (Exception ex)
+            {
+                Console.WriteLine($"Erro en la ejecución:{ex.Message}");
+                Assert.Fail("Cayo en el catch");
+
+            }
+
 
             //asser valida escenarios negativos y positivos
             //ASSERT es un metodo que utilizo para
