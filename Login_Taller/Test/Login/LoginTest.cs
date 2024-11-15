@@ -9,14 +9,10 @@ using static System.Net.WebRequestMethods;
 namespace Login_Taller.Test.Login
 {
 
+    //Se usa herencia el papa va a ser base test y
+    //todos los metodos de ese papa los puede utilizar en los hijos
     public class Tests : BaseTest
     {
-      
-
-        //El tipo de retorno IEnumerable va ser el interfaz que va representar una coleccion de objetos
-        //cual es mi coleccion de objetos la que esta en credenciales 
-        //long que va hacer unit es que va a tomar este objeto de tipo IEnumerable y lo va a transformar en una lista de datos
-
         public static IEnumerable TestData
         {
             get
@@ -25,13 +21,6 @@ namespace Login_Taller.Test.Login
                 return json.login_data().Select(data => new TestCaseData(data.username, data.password));
             }
         }
-
-
-        //nameof evita que utilice magig string 
-        //magic string numeros magicos
-        // if(userRole == "admin") ¨{//Hacer algo para el administrador}
-        //Es un termino que nos referimos a cadenas de texto que s eusan directamente en el codigo pero que no tenemos ningun tipo de explicacion
-        //NO ES RECOMENDABLE UTILIZAR MAGIC STRING NO ES UNA BUENA PRACTICA
 
 
         [Test]
