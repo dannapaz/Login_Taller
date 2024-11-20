@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
+using AventStack.ExtentReports;
 using Login_Taller.Genericos;
 using Login_Taller.PageObject.Login;
 using OpenQA.Selenium;
@@ -13,11 +14,6 @@ namespace Login_Taller.Test.Login
     public class Tests : BaseTest
     {
 
-
-        //El tipo de retorno IEnumerable va ser el interfaz que va representar una coleccion de objetos
-        //cual es mi coleccion de objetos la que esta en credenciales 
-        //long que va hacer unit es que va a tomar este objeto de tipo IEnumerable y lo va a transformar en una lista de datos
-
         public static IEnumerable TestData
         {
             get
@@ -27,59 +23,52 @@ namespace Login_Taller.Test.Login
             }
         }
 
-
-        //nameof evita que utilice magig string 
-        //magic string numeros magicos
-        // if(userRole == "admin") ¨{//Hacer algo para el administrador}
-        //Es un termino que nos referimos a cadenas de texto que s eusan directamente en el codigo pero que no tenemos ningun tipo de explicacion
-        //NO ES RECOMENDABLE UTILIZAR MAGIC STRING NO ES UNA BUENA PRACTICA
-
-
         [Test]
         [TestCaseSource(nameof(TestData))]
         public void IngresoCorrecto(string user, string pass)
-
         {
-            var data = json.login_data();
-            // String user = data.username;
-            // String password = data.password;
+            test = reports.CreateTest("Validando ingreso correcto");
 
             try
             {
                 login.IngresarCredenciales(user, pass);
-                page.ElementoVisible(login.botonLogin);
+                test.Log(Status.Pass, $"Se ingresaron las credenciales: {user}, {pass}");
+                // diferentes esperas
+                page.ElementoEsVisible(login.LoginButtom);
+                page.ElementoEsActivo(login.LoginButtom);
+                page.ElementoNoVacio(login.UsernameField);
                 login.DarClickBotonLogin();
-                //page.ElementoVisible(login.botonLogout);
-            }
-            catch (NoSuchElementException ex) 
-                {
-                    Console.WriteLine($"No se encuentra el elemento:{ ex.Message}");
-                     captura.CapturarPantalla(driver);
-                   Assert.Fail("Cayo en el catch");
-            }
+                test.Log(Status.Pass, "Se le dio click el boton login");
 
-                catch (Exception ex)
+                // Assertions
+                Assert.That(driver.Url.Equals("https://the-internet.herokuapp.com/secure"), "La URL no corresponde a la pagina de inicio esperada");
+                Assert.That(login.ValidarIngresoCorrecto(), "La validación de ingreso correcto falló.");
+                Assert.That(login.LogoutButtom.Displayed, "El botón de logout no se mostró correctamente.");
+                test.Log(Status.Pass, "Se ingreso correctamente");
+
+                page.ElementoEsActivo(login.LogoutButtom);
+                login.ClickBotonLogout();
+                test.Log(Status.Pass, "Se dio click en el botón Logout");
+            }
+            catch (NoSuchElementException ex)
             {
-                Console.WriteLine($"Erro en la ejecución:{ex.Message}");
-                captura.CapturarPantalla(driver);
-                Assert.Fail("Cayo en el catch");
-
-
+                test.AddScreenCaptureFromBase64String(captura.CapturarPantalla(driver));
+                Assert.Fail($"No se encontró el elemento: {ex.Message}");
+            }
+            catch (AssertionException ex)
+            {
+                test.Log(Status.Fail, $"Fallo de aserción: {ex.Message}");
+                test.AddScreenCaptureFromBase64String(captura.CapturarPantalla(driver));
+                Assert.Fail($"Fallo de aserción: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                test.Log(Status.Fail, $"Error en la ejecución del test: {ex.Message}");
+                test.AddScreenCaptureFromBase64String(captura.CapturarPantalla(driver));
+                Assert.Fail($"Error en la ejecución del test: {ex.Message}");
+                throw;
             }
 
-
-            //asser valida escenarios negativos y positivos
-            //ASSERT es un metodo que utilizo para
-            //verificar el compoertamiento de mi codigo o test sea el esperado
-            //Los assert deben estar en el test porque el tets como tal es el que verifica el comportamiento esperado
-            //mientras que el PAGE solo debe encargarse de interactuar con la interfaz 
-            //Hay muchas formas de poder validar 
-
-            // Assert.That(login.validarBoton());
-            //Assert.That(login.botonLogout.Displayed);
-            //Assert.That(driver.Url.Contains("/secure"));
-
-            Assert.That(driver.Url.Equals("https://the-internet.herokuapp.com/login"));
         }
     }
 
